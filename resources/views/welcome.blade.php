@@ -30,61 +30,105 @@
             </div>
 
             <!-- Mobile Money Section -->
-            <div id="mobile-money-section" class="payment-section">
-                <div class="form-group">
-                    <label for="amount-mobile">Amount (Kwacha)</label>
-                    <input type="text" id="amount-mobile" name="amount_mobile" value="10" readonly>
+            <form id="mobile-money-form" action="{{ route('charge.mobile-money') }}" method="POST">
+                @csrf <!-- CSRF Token for security -->
+                <div id="mobile-money-section" class="payment-section">
+                    <div class="form-group">
+                        <label for="amount-mobile">Amount (Kwacha)</label>
+                        <input type="text" id="amount-mobile" name="amount" value="10" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="mobile-network">Mobile Network Operator</label>
+                        <select id="mobile-network" name="mno" required>
+                            <option value="" disabled selected>Select Network</option>
+                            <option value="mtn">MTN</option>
+                            <option value="airtel">Airtel</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" placeholder="Enter your phone number"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="country">Country</label>
+                        <input type="text" id="country" name="country" value="Zambia" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="currency">Currency</label>
+                        <input type="text" id="currency" name="currency" value="ZMW" readonly>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="mobile-network">Mobile Network Operator</label>
-                    <select id="mobile-network" name="mobile_network" required>
-                        <option value="" disabled selected>Select Network</option>
-                        <option value="mtn">MTN</option>
-                        <option value="airtel">Airtel</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="phone">Phone Number</label>
-                    <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
-                </div>
-            </div>
+                <!-- Submit Button for Mobile Money -->
+                <button type="submit" class="submit-button">Proceed to Payment</button>
+            </form>
 
             <!-- Card Payment Section -->
-            <div id="card-payment-section" class="payment-section" style="display: none;">
-                <div class="form-group">
-                    <label for="amount-card">Amount (USD)</label>
-                    <input type="text" id="amount-card" name="amount_card" value="10" readonly>
-                </div>
-                <div class="form-group">
-                    <label for="cardholder-name">Cardholder Name</label>
-                    <input type="text" id="cardholder-name" name="cardholder_name"
-                        placeholder="Enter cardholder name" required>
-                </div>
-                <div class="form-group">
-                    <label for="card-number">Card Number</label>
-                    <input type="text" id="card-number" name="card_number" placeholder="Enter card number" required>
-                </div>
-                <div class="form-row">
+            <form id="card-payment-form" action="{{ route('charge.credit-card') }}" method="POST"
+                style="display: none;">
+                @csrf <!-- CSRF Token for security -->
+                <div id="card-payment-section" class="payment-section">
                     <div class="form-group">
-                        <label for="expiry-date">Expiry Date</label>
-                        <input type="text" id="expiry-date" name="expiry_date" placeholder="MM/YY" required>
+                        <label for="amount-card">Amount (USD)</label>
+                        <input type="text" id="amount-card" name="amount" value="10" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="cvc">CVC</label>
-                        <input type="text" id="cvc" name="cvc" placeholder="CVC" required>
+                        <label for="cardholder-name">Cardholder Name</label>
+                        <input type="text" id="cardholder-name" name="cardholder_name"
+                            placeholder="Enter cardholder name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="card-number">Card Number</label>
+                        <input type="text" id="card-number" name="card_number" placeholder="Enter card number"
+                            required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="expiry-date">Expiry Date</label>
+                            <input type="text" id="expiry-date" name="expiry_date" placeholder="MM/YY" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cvc">CVC</label>
+                            <input type="text" id="cvc" name="cvc" placeholder="CVC" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="currency">Currency</label>
+                        <input type="text" id="currency" name="currency" value="USD" readonly>
                     </div>
                 </div>
-            </div>
-
-            <!-- Submit Button -->
-            <button type="submit" class="submit-button">Proceed to Payment</button>
+                <!-- Submit Button for Card Payment -->
+                <button type="submit" class="submit-button">Proceed to Payment</button>
+            </form>
         </div>
     </div>
 
     <!-- Font Awesome Icons -->
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <!-- JavaScript for Toggle -->
-    <script src="{{ asset('assets/script.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMoneySection = document.getElementById('mobile-money-form');
+            const cardPaymentSection = document.getElementById('card-payment-form');
+            const mobileMoneyRadio = document.getElementById('mobile-money');
+            const cardPaymentRadio = document.getElementById('card-payment');
+
+            function togglePaymentSections() {
+                if (mobileMoneyRadio.checked) {
+                    mobileMoneySection.style.display = 'block';
+                    cardPaymentSection.style.display = 'none';
+                } else if (cardPaymentRadio.checked) {
+                    mobileMoneySection.style.display = 'none';
+                    cardPaymentSection.style.display = 'block';
+                }
+            }
+
+            mobileMoneyRadio.addEventListener('change', togglePaymentSections);
+            cardPaymentRadio.addEventListener('change', togglePaymentSections);
+
+            togglePaymentSections(); // Initialize the form with the correct section visible
+        });
+    </script>
 </body>
 
 </html>
