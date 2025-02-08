@@ -30,42 +30,47 @@
             </div>
 
             <!-- Mobile Money Section -->
-            <form id="mobile-money-form" action="{{ route('charge.mobile-money') }}" method="POST">
+            <form id="mobile-money-form" action="{{ route('payment.submit') }}" method="POST">
                 @csrf <!-- CSRF Token for security -->
+
                 <div id="mobile-money-section" class="payment-section">
                     <div class="form-group">
                         <label for="amount-mobile">Amount (Kwacha)</label>
-                        <input type="text" id="amount-mobile" name="amount" value="10" readonly>
+                        <input type="number" id="amount-mobile" name="amount" value="10" readonly required>
                     </div>
+
                     <div class="form-group">
                         <label for="mobile-network">Mobile Network Operator</label>
-                        <select id="mobile-network" name="mno" required>
+                        <select id="mobile-network" name="network" required>
                             <option value="" disabled selected>Select Network</option>
                             <option value="mtn">MTN</option>
                             <option value="airtel">Airtel</option>
                         </select>
                     </div>
+
                     <div class="form-group">
                         <label for="phone">Phone Number</label>
-                        <input type="tel" id="phone" name="phone" placeholder="Enter your phone number"
+                        <input type="tel" id="phone" name="phone_num" placeholder="Enter your phone number"
                             required>
                     </div>
+
                     <div class="form-group">
                         <label for="country">Country</label>
                         <input type="text" id="country" name="country" value="Zambia" readonly>
                     </div>
+
                     <div class="form-group">
                         <label for="currency">Currency</label>
                         <input type="text" id="currency" name="currency" value="ZMW" readonly>
                     </div>
                 </div>
+
                 <!-- Submit Button for Mobile Money -->
                 <button type="submit" class="submit-button">Proceed to Payment</button>
             </form>
 
             <!-- Card Payment Section -->
-            <form id="card-payment-form" action="{{ route('charge.credit-card') }}" method="POST"
-                style="display: none;">
+            <form id="card-payment-form" action="#" method="POST" style="display: none;">
                 @csrf <!-- CSRF Token for security -->
                 <div id="card-payment-section" class="payment-section">
                     <div class="form-group">
