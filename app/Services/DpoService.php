@@ -6,9 +6,9 @@ class DpoService
 {
     private static $endpoint_url = "https://secure.3gdirectpay.com/API/v6/";
 
-    private static $CompanyToken = "your_company_token";
+    private static $CompanyToken = "83DBBABA-87CF-4901-B1CB-DBEBD5BBB850";
 
-    private static $serviceType = "service_type_code";
+    private static $serviceType = "78752";
 
     public static $ref;
 
